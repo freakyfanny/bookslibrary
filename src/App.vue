@@ -9,20 +9,6 @@
       class="books-container flex flex-wrap items-center justify-center -mx-1 w-screen sm:w-full h-screen sm:h-full p-10 bg-pink-200"
     >
       <BookCard v-for="book in booksLibrary" :book="book" :key="book.lccn"/>
-      <!-- <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard /> -->
     </div>
   </div>
 </template>
@@ -41,6 +27,7 @@ const booksLibrary = ref([]);
 
 const searchForInput = async (searchParam) => {
   const ladida = await booksStore.searchBook(searchParam);
+  console.log(ladida);
   booksLibrary.value = booksStore.books;
 }
 </script>

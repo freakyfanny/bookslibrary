@@ -1,37 +1,64 @@
 <template>
-    <div class="h-max my-1 w-1/2 sm:w-1/3 h-1/2 sm:h-1/2 max-w-sm rounded overflow-hidden m-2 shadow-lg bg-white">
-  <img class="w-full" src="https://v1.tailwindcss.com/img/card-top.jpg" alt="Sunset in the mountains">
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2" >{{book.title}}</div>
-    <div v-if="book.author && book.author.length > 1">
-    <p  v-for="author in book.author" :key="author" class="text-gray-700 text-base">
-     {{ author.toString() }}
-    </p></div>
-    <div v-if="book.author && book.author.length === 1 ">
-    <p class="text-gray-700 text-base">
-     {{ book.author.toString() }}
-    </p>
+  <div
+    class="my-1 w-1/2 sm:w-1/3 h-1/2 sm:h-1/2 max-w-sm rounded m-2 shadlow-lg bg-white max-w-sm w-full lg:max-w-full lg:flex"
+  >
+    <div
+      v-if="props.book.thumbnail_url"
+      class="h-48 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
+      :style="{ 'background-image': 'url(' + props.book.thumbnail_url.replace(/-S/, '-M') + ')' }"
+      title="Woman holding a mug"
+    ></div>
+    <div
+      v-else
+      class="h-48 lg:h-64 lg:w-40 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-pink-100"
+      title="Woman holding a mug"
+    ></div>
+    <div
+      class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-start leading-normal"
+    >
+      <div class="flex items-start flex-col">
+        <div class="text-gray-900 font-bold text-left text-xl mb-2">
+          {{ props.book.title }}
+        </div>
+
+        <div class="flex items-start pb-2">
+        <!-- <img class="w-10 h-10 rounded-full mr-4" src="/img/author.jpg" alt="Author"> -->
+        <div class="text-sm">
+          <div v-if="props.book.author && props.book.author.length > 1">
+            <span
+              v-for="author in props.book.author"
+              :key="author"
+              class="text-gray-700 text-base"
+            >
+              {{ author.toString() }} &nbsp;
+            </span>
+          </div>
+          <div v-if="props.book.author && props.book.author.length === 1">
+            <p class="text-gray-700 text-base">
+              {{ props.book.author.toString() }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+        <div class="flex flex-wrap">
+          <span
+            v-for="category in props.book.category"
+            :key="category"
+            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2 mb-2"
+            >{{ category }}</span
+          >
+        </div>
+      </div>
     </div>
   </div>
-  <div class="flex flex-wrap px-6 pt-4 pb-2">
-    <span v-for="category in book.category" :key="category" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{{ category }}</span>
-    <!-- <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span> -->
-  </div>
-</div>
-
 </template>
 
+<script setup>
+import { defineProps} from "vue";
 
-<script>
-export default {
-  name: 'BookCard',
-  props: {
-    book: Object
-  }
-}
+const props = defineProps(['book'])
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+<style></style>

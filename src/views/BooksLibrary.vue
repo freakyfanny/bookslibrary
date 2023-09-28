@@ -3,7 +3,7 @@
     class="book-lirary max-h-full sm:max-h-screen max-w-full sm:max-w-screen"
   >
     <div
-      class="books-container flex flex-wrap items-center justify-center -mx-1 w-screen sm:w-full h-screen p-10 bg-pink-200"
+      class="books-container flex flex-wrap items-center justify-center -mx-1 w-screen sm:w-full min-h-screen h-fit p-10 bg-pink-200"
     >
       <BookCard v-for="book in booksLibrary" :book="book" :key="book.lccn" />
     </div>

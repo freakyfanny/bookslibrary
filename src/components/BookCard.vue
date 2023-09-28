@@ -3,9 +3,9 @@
     class="my-1 w-1/2 sm:w-1/3 h-1/2 sm:h-1/2 max-w-sm rounded m-2 shadlow-lg bg-white max-w-sm w-full lg:max-w-full lg:flex"
   >
     <div
-      v-if="props.book.thumbnail_url"
+      v-if="props.book && props.book.covers"
       class="h-48 m-3 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
-      :style="{ 'background-image': 'url(' + props.book.thumbnail_url.replace(/-S/, '-M') + ')' }"
+      :style="{ 'background-image': 'url(' + getBookCoverUrl(props.book) + ')' }"
       title="Woman holding a mug"
     ></div>
     <div
@@ -58,6 +58,13 @@
 import { defineProps} from "vue";
 
 const props = defineProps(['book'])
+
+const getBookCoverUrl = (book) => {
+  const coverId = book.covers[0];
+  console.log(book.title);
+  console.log(book);
+  return `https://covers.openlibrary.org/b/id/${coverId}-M.jpg`;
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

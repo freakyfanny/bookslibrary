@@ -17,6 +17,12 @@ app.get("/books", async (request, response) => {
   response.send(result);
 });
 
+app.get("/bookDetails", async (request, response) => {
+  const result = await getBookDetails(request.query.key);
+  console.log("bookDetails result", result);
+  response.send(result);
+});
+
 app.get(`/search`, async (request, response) => {
   const result = await search(request.query.searchParam);
 
@@ -38,19 +44,23 @@ const mapToBookStructure = async (books) => {
   const mapResult = await Promise.all(books.map( async function (book) {
     console.log("current book in map");
     console.log(book);
-    let updatedBook;
+    let updatedBook, bookDetails;
 
     if (book.oclc?.length > 0) {
         updatedBook = await getBook(book.oclc[0], "oclc");
+        bookDetails = await getBookDetails(book.key);
     } else if (book.isbn?.length > 0) {
         updatedBook = await getBook(book.isbn[0], "isbn");
+        bookDetails = await getBookDetails(book.key);
     }
 
     console.log('updatedBook');
     console.log(updatedBook);
 
     return {
+      ...bookDetails,
       ...updatedBook,
+      key: book.key,
       title: book.title,
       oclc: book.oclc,
       isbn: book.isbn,
@@ -104,4 +114,29 @@ const getBook = async (id, type) => {
   console.log('--- get book ---')
   console.log(result);
   return result[`${type}:${id}`];
+};
+
+
+const getBookDetails = async (key) => {
+  const response = await fetch(
+    `${url}/${key}`,
+    {
+      headers: {
+        accept: "application/json",
+      },
+    }
+  )
+    .then((response) => {
+      console.log("inside GetBookDetails", response);
+
+      return response;
+    })
+    .catch((err) => {
+      console.log(`Fetch error: ${err}`);
+    });
+
+  const result = await response.json();
+  console.log('--- get book details ---')
+  console.log(result);
+  return result;
 };

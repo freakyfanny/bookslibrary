@@ -1,7 +1,7 @@
 <template>
   <div class="search-box flex">
     <input
-      type="text"
+    type="search"
       v-model="searchValue"
       placeholder="Search for a book..."
     />

@@ -6,6 +6,7 @@ export const useBooksStore = defineStore("books", () => {
 
   const booksLibrary = ref({});
   const numberFound = ref(0);
+  const bookDetails = ref({});
 
   async function getCurrentBook(id, type) {
     console.log('getCurrentBook in pinia')
@@ -16,12 +17,15 @@ export const useBooksStore = defineStore("books", () => {
   }
 
 
-  async function getBooksInfo(id, type) {
-    console.log('getBooksInfo in pinia')
-    console.log(`id ${id}`);
-    console.log(`type ${type}`);
-    //fetch(id,type) from server
-    return "book"
+  async function getBooksDetails(key) {
+    const url= "http://localhost:3000/bookDetails?key=";
+    const result = await fetch(url+key, {
+        method: 'get'
+    })
+    .then(async(response) => { const res = await response.json(); return res;});
+    console.log(`after fetch booksdetails:`);
+    bookDetails.value = result;
+    return bookDetails.value;
   }
 
 
@@ -45,6 +49,6 @@ export const useBooksStore = defineStore("books", () => {
     //fetch(searhParam) from server
   }
 
-  return { book, booksLibrary, searchBook, getCurrentBook, getBooksInfo };
+  return { book, booksLibrary, searchBook, getCurrentBook, getBooksDetails };
 });
 

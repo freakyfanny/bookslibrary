@@ -4,8 +4,7 @@ import { ref } from "vue";
 export const useBooksStore = defineStore("books", () => {
   const book = ref({ title: "booktitle", isbn: "isbn" });
 
-  const books = ref({});
-  const library = ref({});
+  const booksLibrary = ref({});
   const numberFound = ref(0);
 
   async function getCurrentBook(id, type) {
@@ -39,13 +38,13 @@ export const useBooksStore = defineStore("books", () => {
     numberFound.value = result.numFound;
     // console.log(books.value);
 
-    books.value = result.docs;
+    booksLibrary.value = result.docs;
     console.log('before return in searchBook');
-    console.log(books.value);
-    return books.value
+    console.log(booksLibrary.value);
+    return booksLibrary.value
     //fetch(searhParam) from server
   }
 
-  return { book, books, library, searchBook, getCurrentBook, getBooksInfo };
+  return { book, booksLibrary, searchBook, getCurrentBook, getBooksInfo };
 });
 

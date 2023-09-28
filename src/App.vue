@@ -1,34 +1,25 @@
 <template>
-  <div
-    class="book-lirary max-h-full sm:max-h-screen max-w-full sm:max-w-screen"
-  >
-    <HeaderNav class="p-10">
-      <SearchBox v-model="email" @searchInput="(e) => searchForInput(e)"
-    /></HeaderNav>
-    <div
-      class="books-container flex flex-wrap items-center justify-center -mx-1 w-screen sm:w-full h-screen sm:h-full p-10 bg-pink-200"
-    >
-      <BookCard v-for="book in booksLibrary" :book="book" :key="book.lccn"/>
+  <HeaderNav class="p-10 flex flex-row">
+    <div id="flex">
+      <router-link to="/">
+  <span class="text-pink-500 text-lg">Books<span class="text-pink-300">library</span></span></router-link> |
+      <!-- <router-link to="/readBook">Read Book</router-link> -->
     </div>
-  </div>
+    <SearchBox v-model="email" @searchInput="(e) => searchForInput(e)" />
+    
+  </HeaderNav>
+  <router-view />
 </template>
 
 <script setup>
 import SearchBox from "./components/SearchBox.vue";
 import HeaderNav from "./components/HeaderNav.vue";
-import BookCard from "./components/BookCard.vue";
-import { ref } from "vue";
 import {useBooksStore} from '../src/store/booksStore';
 
 const booksStore = useBooksStore()
 
-const booksLibrary = ref([]);
-
-
 const searchForInput = async (searchParam) => {
-  const ladida = await booksStore.searchBook(searchParam);
-  console.log(ladida);
-  booksLibrary.value = booksStore.books;
+  await booksStore.searchBook(searchParam);
 }
 </script>
 

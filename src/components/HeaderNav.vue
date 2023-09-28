@@ -1,7 +1,6 @@
 <template>
  <div class="header">
   <slot></slot>
-  <div class="header-title text-pink-500 text-lg">find<span class="text-pink-300">books</span></div>
   </div>
 </template>
 

@@ -1,10 +1,10 @@
-<<<<<<< HEAD
+
 # bookslibrary
 A library where you can search on books and read more about them.
-=======
+
 # exercise
 
-## Toos
+## Todos
 * Make use of works endpoint in openlibrary api (to get correct cover)
 * Create the read book view
 * Populate content in book view
@@ -33,4 +33,3 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
->>>>>>> b3f5d8c (first commit)

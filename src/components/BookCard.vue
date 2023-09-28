@@ -4,13 +4,13 @@
   >
     <div
       v-if="props.book.thumbnail_url"
-      class="h-48 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
+      class="h-48 m-3 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
       :style="{ 'background-image': 'url(' + props.book.thumbnail_url.replace(/-S/, '-M') + ')' }"
       title="Woman holding a mug"
     ></div>
     <div
       v-else
-      class="h-48 lg:h-64 lg:w-40 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-pink-100"
+      class="h-48 m-3 lg:h-64 lg:w-40 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-pink-100"
       title="Woman holding a mug"
     ></div>
     <div

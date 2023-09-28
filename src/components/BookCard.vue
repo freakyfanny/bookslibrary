@@ -1,6 +1,6 @@
 <template>
   <div
-    class="my-1 w-1/2 sm:w-1/3 h-1/2 sm:h-1/2 max-w-sm rounded m-2 shadlow-lg bg-white max-w-sm w-full lg:max-w-full lg:flex"
+    class="my-1 w-1/2 sm:w-1/3 sm:h-fit h-1/2 max-w-sm rounded m-2 shadlow-lg bg-white max-w-sm w-full lg:max-w-full lg:flex"
   >
     <div
       v-if="props.book && props.book.covers"

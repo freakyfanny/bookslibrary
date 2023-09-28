@@ -34,19 +34,21 @@ app.get(`/search`, async (request, response) => {
   response.send(result);
 });
 
-const mapToBookStructure = (books) => {
-  const mapresult = books.map( function (book) {
-    console.log('current book in map');
+const mapToBookStructure = async (books) => {
+  const mapResult = await Promise.all(books.map( async function (book) {
+    console.log("current book in map");
     console.log(book);
     let updatedBook;
 
     if (book.oclc?.length > 0) {
-      updatedBook = getBook(book.oclc[0], "oclc");
+        updatedBook = await getBook(book.oclc[0], "oclc");
     } else if (book.isbn?.length > 0) {
-      updatedBook = getBook(book.isbn[0], "isbn");
+        updatedBook = await getBook(book.isbn[0], "isbn");
     }
-    console.log("fetched book in map");
+
+    console.log('updatedBook');
     console.log(updatedBook);
+
     return {
       ...updatedBook,
       title: book.title,
@@ -56,10 +58,12 @@ const mapToBookStructure = (books) => {
       authorKey: book.author_key,
       category: book.subject_facet?.slice(0, 5),
     };
-  });
-  console.log('----------result from map-------');
-  console.log(mapresult);
-  return mapresult;
+  }));
+
+  console.log("mapResult");
+  console.log(mapResult);
+
+  return mapResult;
   //return books.map(book => ({ title: book.title, oclc: book.oclc, isbn: book.isbn, author: book.author_name, authorKey: book.author_key, category: book.subject_facet?.slice(0,5)}));
 };
 
@@ -78,8 +82,8 @@ const search = (query) => {
     });
 };
 
-const getBook = (id, type) => {
-  return fetch(
+const getBook = async (id, type) => {
+  const response = await fetch(
     `${url}/api/books?bibkeys=${type}%3A${id}&format=json&jscmd=viewapi`,
     {
       headers: {
@@ -87,13 +91,17 @@ const getBook = (id, type) => {
       },
     }
   )
-    .then(async (response) => {
-      const result = await response.json();
-      console.log("inside Get Book", result);
+    .then((response) => {
+      console.log("inside Get Book", response);
 
-      return result;
+      return response;
     })
     .catch((err) => {
       console.log(`Fetch error: ${err}`);
     });
+
+  const result = await response.json();
+  console.log('--- get book ---')
+  console.log(result);
+  return result[`${type}:${id}`];
 };

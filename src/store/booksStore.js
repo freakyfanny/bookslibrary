@@ -2,28 +2,27 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useBooksStore = defineStore("books", () => {
-  const book = ref({ title: "booktitle", isbn: "isbn" });
+  const currentBook = ref({ title: "booktitle", isbn: "isbn" });
 
   const booksLibrary = ref({});
   const numberFound = ref(0);
   const bookDetails = ref({});
 
-  async function getCurrentBook(id, type) {
-    console.log('getCurrentBook in pinia')
-    console.log(`id ${id}`);
-    console.log(`type ${type}`);
-    //fetch(id,type) from server
-    return "book"
+  function setCurrentBook(book){
+    currentBook.value = book;
   }
 
-
-  async function getBooksDetails(key) {
+  async function getBookDetails() {
+    console.log('key');
+    console.log(currentBook.value)
+    console.log(currentBook.value.key);
     const url= "http://localhost:3000/bookDetails?key=";
-    const result = await fetch(url+key, {
+    const result = await fetch(url+currentBook.value.key, {
         method: 'get'
     })
     .then(async(response) => { const res = await response.json(); return res;});
     console.log(`after fetch booksdetails:`);
+    console.log(bookDetails);
     bookDetails.value = result;
     return bookDetails.value;
   }
@@ -49,6 +48,6 @@ export const useBooksStore = defineStore("books", () => {
     //fetch(searhParam) from server
   }
 
-  return { book, booksLibrary, searchBook, getCurrentBook, getBooksDetails };
+  return { currentBook, booksLibrary, bookDetails, searchBook, setCurrentBook, getBookDetails };
 });
 

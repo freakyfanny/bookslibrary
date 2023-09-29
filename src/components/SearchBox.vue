@@ -3,6 +3,7 @@
     <input
     type="search"
       v-model="searchValue"
+      @keyup.enter="handleSearchInput"
       placeholder="Search for a book..."
     />
     <button

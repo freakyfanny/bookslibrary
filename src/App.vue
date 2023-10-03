@@ -3,7 +3,7 @@
     <div id="flex">
       <router-link to="/">
   <span class="text-pink-500 text-lg">Books<span class="text-pink-300">library</span></span></router-link> |
-      <router-link to="/readBook">Read Book</router-link>
+      <router-link to="/readBook" v-if="currentBook && currentBook.title">Read Book</router-link>
     </div>
     <SearchBox v-model="email" @searchInput="(e) => searchForInput(e)" />
     
@@ -14,12 +14,16 @@
 <script setup>
 import SearchBox from "./components/SearchBox.vue";
 import HeaderNav from "./components/HeaderNav.vue";
+import { storeToRefs } from "pinia";
 import {useBooksStore} from '../src/store/booksStore';
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
 const booksStore = useBooksStore()
+
+const { currentBook } = storeToRefs(booksStore);
+
 
 const searchForInput = async (searchParam) => {
   router.push('/')

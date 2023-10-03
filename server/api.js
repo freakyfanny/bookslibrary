@@ -23,6 +23,14 @@ app.get("/bookDetails", async (request, response) => {
   response.send(result);
 });
 
+
+app.get("/isbnDetails", async (request, response) => {
+  const result = await getIsbnDetails(request.query.isbn);
+  console.log("IsbnDetails result", result);
+  response.send(result);
+});
+
+
 app.get(`/search`, async (request, response) => {
   const result = await search(request.query.searchParam);
 
@@ -44,20 +52,27 @@ const mapToBookStructure = async (books) => {
   const mapResult = await Promise.all(books.map( async function (book) {
     console.log("current book in map");
     console.log(book);
-    let updatedBook, bookDetails;
+    let updatedBook, bookDetails, isbnDetails;
 
-    if (book.oclc?.length > 0) {
+    console.log('isbn');
+    console.log(book.isbn);
+    if (book.isbn?.length > 0) {
+      updatedBook = await getBook(book.isbn[0], "isbn");
+      bookDetails = await getBookDetails(book.key);
+      // isbnDetails = await getIsbnDetails(book.isbn[0]);
+    } else if (book.oclc?.length > 0) {
         updatedBook = await getBook(book.oclc[0], "oclc");
         bookDetails = await getBookDetails(book.key);
-    } else if (book.isbn?.length > 0) {
-        updatedBook = await getBook(book.isbn[0], "isbn");
-        bookDetails = await getBookDetails(book.key);
     }
+
+    // console.log('isbnDetails');
+    // console.log(isbnDetails);
 
     console.log('updatedBook');
     console.log(updatedBook);
 
     return {
+      ...isbnDetails,
       ...bookDetails,
       ...updatedBook,
       key: book.key,
@@ -137,6 +152,30 @@ const getBookDetails = async (key) => {
 
   const result = await response.json();
   console.log('--- get book details ---')
+  console.log(result);
+  return result;
+};
+
+const getIsbnDetails = async (isbn) => {
+  const response = await fetch(
+    `${url}/isbn/${isbn}`,
+    {
+      headers: {
+        accept: "application/json",
+      },
+    }
+  )
+    .then((response) => {
+      console.log("inside GetIsbnDetails", response);
+
+      return response;
+    })
+    .catch((err) => {
+      console.log(`Fetch error: ${err}`);
+    });
+
+  const result = await response.json();
+  console.log('--- get isbn details ---')
   console.log(result);
   return result;
 };

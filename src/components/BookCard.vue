@@ -21,25 +21,7 @@
           {{ props.book.title }}
         </div>
 
-        <div class="flex items-start pb-2">
-        <!-- <img class="w-10 h-10 rounded-full mr-4" src="/img/author.jpg" alt="Author"> -->
-        <div class="text-sm">
-          <div v-if="props.book.author && props.book.author.length > 1">
-            <span
-              v-for="author in props.book.author"
-              :key="author"
-              class="text-gray-700 text-base"
-            >
-              {{ author.toString() }} &nbsp;
-            </span>
-          </div>
-          <div v-if="props.book.author && props.book.author.length === 1">
-            <p class="text-gray-700 text-base">
-              {{ props.book.author.toString() }}
-            </p>
-          </div>
-        </div>
-      </div>
+       <BookAuthor :author="props.book.author"/>
 
         <div class="flex flex-wrap">
           <span
@@ -57,6 +39,7 @@
 <script setup>
 import { defineProps} from "vue";
 import { useBooksStore } from "../store/booksStore";
+import BookAuthor from '../components/BookAuthor.vue'
 
 import { useRouter } from 'vue-router'
 const router = useRouter()

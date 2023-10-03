@@ -22,7 +22,6 @@ const searchValue = ref("");
 const emit = defineEmits(["searchInput"])
 
 function handleSearchInput() {
-    console.log(searchValue);
     emit('searchInput', searchValue.value)
 }
 </script>

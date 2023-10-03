@@ -16,20 +16,33 @@
       :title="currentBook.title"
     ></div>
 
-    <div class="w-1/3">
-      <h3 class="text-gray-900 font-bold text-left text-xl mt-2">
+      <div class="w-1/3 flex flex-col"><h3 class="text-gray-900 font-bold text-left text-xl mt-2">
         {{ currentBook.title }}
       </h3>
       <div v-if="currentBook.author">
         <BookAuthor :author="currentBook.author" />
       </div>
-      <div v-if="bookDetails.description">
+      <p class="pt-4"><b>Published year:</b></p>
+        <p>{{ currentBook.publishDate }}</p>
+    </div>
+      <div class="w-1/3 flex flex-col" v-if="bookDetails.description">
+        <p class="pt-4"><b>Description: </b></p>
         <p v-if="bookDetails.description.value">
           {{ showCorrectDescription(bookDetails.description.value) }}
         </p>
         <p v-else>{{ showCorrectDescription(bookDetails.description) }}</p>
       </div>
-    </div>
+
+      <div class="w-1/3 flex flex-col"> 
+        
+        <p>
+          rating{{ currentBook.rating }} rating count
+          {{ currentBook.ratingCount }} want to read
+          {{ currentBook.wantRead }} currently reading
+          {{ currentBook.currentlyReading }} read
+          {{ currentBook.alreadyRead }} pages {{ currentBook.pages }}
+        </p>
+      </div>
   </div>
 </template>
 

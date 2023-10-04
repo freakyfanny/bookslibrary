@@ -33,7 +33,7 @@
       
     </div>
     <div class="w-1/3 flex flex-col mx-2" v-if="bookDetails.description">
-      <p class="pt-4"><b>Description: </b></p>
+      <p><b>Description: </b></p>
       <p v-if="bookDetails.description.value">
         {{ showCorrectDescription(bookDetails.description.value) }}
       </p>
@@ -58,14 +58,26 @@ import { storeToRefs } from "pinia";
 import { onBeforeMount } from "vue";
 import BookAuthor from "../components/BookAuthor.vue";
 import StarRating from "../components/StarRating.vue";
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const bookStore = useBooksStore();
 
 const { currentBook, bookDetails } = storeToRefs(bookStore);
 
 onBeforeMount(async () => {
-  bookDetails.value = await bookStore.getBookDetails();
-  console.log(bookDetails);
+  if(!currentBook) {
+    router.push('/');
+  }
+
+  try { 
+     bookDetails.value = await bookStore.getBookDetails();
+
+      } catch (err) {
+        // Handle the error here
+        console.error("Error in ReadBook onBeforeMount:", err);
+      }
 });
 
 const showCorrectDescription = (bookDescription) => {

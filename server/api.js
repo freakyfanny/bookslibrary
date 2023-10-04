@@ -96,7 +96,6 @@ const mapToBookStructure = async (books) => {
   console.log(mapResult);
 
   return mapResult;
-  //return books.map(book => ({ title: book.title, oclc: book.oclc, isbn: book.isbn, author: book.author_name, authorKey: book.author_key, category: book.subject_facet?.slice(0,5)}));
 };
 
 const search = (query) => {
@@ -110,7 +109,7 @@ const search = (query) => {
       return response.json();
     })
     .catch((err) => {
-      console.log(`Fetch error: ${err}`);
+      console.log(`ERror in search: ${err}`);
     });
 };
 
@@ -129,12 +128,10 @@ const getBook = async (id, type) => {
       return response;
     })
     .catch((err) => {
-      console.log(`Fetch error: ${err}`);
+      console.log(`Error in getBook: ${err}`);
     });
 
   const result = await response.json();
-  console.log('--- get book ---')
-  console.log(result);
   return result[`${type}:${id}`];
 };
 
@@ -158,8 +155,6 @@ const getBookDetails = async (key) => {
     });
 
   const result = await response.json();
-  console.log('--- get book details ---')
-  console.log(result);
   return result;
 };
 
@@ -178,11 +173,9 @@ const getIsbnDetails = async (isbn) => {
       return response;
     })
     .catch((err) => {
-      console.log(`Fetch error: ${err}`);
+      console.log(`Error in getIsbnDetails: ${err}`);
     });
 
   const result = await response.json();
-  console.log('--- get isbn details ---')
-  console.log(result);
   return result;
 };

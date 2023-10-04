@@ -17,12 +17,17 @@
 
 <script setup>
 import { ref, defineEmits } from "vue";
+import { useBooksStore } from "../../src/store/booksStore";
+
+const booksStore = useBooksStore();
 
 const searchValue = ref("");
-const emit = defineEmits(["searchInput"])
+const emit = defineEmits(["searchInput"]);
 
 function handleSearchInput() {
-    emit('searchInput', searchValue.value)
+    booksStore.setLoading(true);
+
+    emit('searchInput', searchValue.value);
 }
 </script>
 

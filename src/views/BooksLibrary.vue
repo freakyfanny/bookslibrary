@@ -1,23 +1,46 @@
 <template>
   <div
-    class="book-lirary max-h-full sm:max-h-screen max-w-full sm:max-w-screen"
+    class="book-lirary max-h-full sm:max-h-screen max-w-full sm:max-w-screen bg-blue-200"
   >
     <div
+      class="justify-center -mx-1 w-screen sm:w-full min-h-screen h-fit p-10 bg-blue-200"
+      v-if="loadingState === true"
+    >
+      <LoadingSpinner />
+    </div>
+    <div
+      v-else
       class="books-container flex flex-wrap justify-center -mx-1 w-screen sm:w-full min-h-screen h-fit p-10 bg-blue-200"
     >
+      <div v-if="numFound < 1">No results found</div>
       <BookCard v-for="book in booksLibrary" :book="book" :key="book.lccn" />
     </div>
   </div>
 </template>
 
 <script setup>
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import BookCard from "../components/BookCard.vue";
+import { ref, watch } from "vue";
 import { useBooksStore } from "../store/booksStore";
 import { storeToRefs } from "pinia";
 
 const bookStore = useBooksStore();
 
-const { booksLibrary } = storeToRefs(bookStore);
+const { booksLibrary, numFound, loading } = storeToRefs(bookStore);
+const loadingState = ref(false);
+
+watch(loading, () => {
+  getLoadingState();
+});
+
+watch(booksLibrary, () => {
+  getLoadingState();
+});
+
+const getLoadingState = () => {
+  loadingState.value = bookStore.getLoading();
+};
 </script>
 
 <style>

@@ -4,13 +4,12 @@ import { ref } from "vue";
 export const useBooksStore = defineStore("books", () => {
   const currentBook = ref(undefined);
 
+  const loading = ref(false);
   const booksLibrary = ref({});
   const numberFound = ref(0);
   const bookDetails = ref({});
 
   function setCurrentBook(book) {
-    console.log("setting current book");
-    console.log(book);
     currentBook.value = book;
   }
 
@@ -30,6 +29,8 @@ export const useBooksStore = defineStore("books", () => {
       });
 
     bookDetails.value = result;
+    setLoading(false);
+
     return bookDetails.value;
   }
 
@@ -45,16 +46,30 @@ export const useBooksStore = defineStore("books", () => {
       .catch((error) => {
         console.error("Error in booksStore searchBook:", error);
       });
-    numberFound.value = result.numFound;
+    numberFound.value = result ? result.numFound : 0;
 
-    booksLibrary.value = result.docs;
+    booksLibrary.value = result ? result.docs : [];
+    setLoading(false);
+    
     return booksLibrary.value;
+  }
+
+  function setLoading(value) {
+    loading.value = value;
+  }
+
+  function getLoading() {
+    return loading.value;
   }
 
   return {
     currentBook,
     booksLibrary,
+    numberFound,
     bookDetails,
+    loading,
+    setLoading,
+    getLoading,
     searchBook,
     setCurrentBook,
     getBookDetails,

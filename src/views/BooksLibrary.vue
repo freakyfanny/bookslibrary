@@ -21,7 +21,7 @@
 <script setup>
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import BookCard from "../components/BookCard.vue";
-import { ref, watch } from "vue";
+import { ref, watch, onMounted } from "vue";
 import { useBooksStore } from "../store/booksStore";
 import { storeToRefs } from "pinia";
 
@@ -41,6 +41,18 @@ watch(booksLibrary, () => {
 const getLoadingState = () => {
   loadingState.value = bookStore.getLoading();
 };
+
+const getNextSearchResults = () => {
+  window.onscroll = () => {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+      bookStore.searchBook()
+    }
+  };
+};
+
+onMounted(() => {
+  getNextSearchResults();
+});
 </script>
 
 <style>

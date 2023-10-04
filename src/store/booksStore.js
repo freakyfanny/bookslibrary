@@ -5,9 +5,11 @@ export const useBooksStore = defineStore("books", () => {
   const currentBook = ref(undefined);
 
   const loading = ref(false);
-  const booksLibrary = ref({});
+  const booksLibrary = ref([]);
   const numberFound = ref(0);
   const bookDetails = ref({});
+  const offset = ref(0);
+  const searchPhrase = ref("");
 
   function setCurrentBook(book) {
     currentBook.value = book;
@@ -34,9 +36,17 @@ export const useBooksStore = defineStore("books", () => {
     return bookDetails.value;
   }
 
+  function clearSearchPhrase() {
+    searchPhrase.value = "";
+  }
+
   async function searchBook(searchParam) {
-    const url = "http://localhost:3000/search?limit=20&searchParam=";
-    const result = await fetch(url + searchParam.replace(/\s/g, "+"), {
+    if (searchParam) {
+      searchPhrase.value = searchParam.replace(/\s/g, "+");
+    }
+
+    const url = `http://localhost:3000/search?limit=20&offset=${offset.value}&searchParam=`;
+    const result = await fetch(url + searchPhrase.value, {
       method: "get",
     })
       .then(async (response) => {
@@ -48,9 +58,29 @@ export const useBooksStore = defineStore("books", () => {
       });
     numberFound.value = result ? result.numFound : 0;
 
-    booksLibrary.value = result ? result.docs : [];
+
+    console.log(numberFound);
+    console.log(booksLibrary);
+    if(booksLibrary.value.length > 0){
+      const newValue = result ? result.docs.concat(booksLibrary.value) : [];
+      console.log('newValue');
+      console.log(result);
+      console.log(booksLibrary.value);
+      console.log(newValue);
+      booksLibrary.value = newValue;
+    } else {
+      console.log('lol');
+      booksLibrary.value = result ? result.docs : [];
+    }
+
     setLoading(false);
-    
+
+
+    if (numberFound.value > 20 && offset.value != numberFound.value - 20) {
+      offset.value += 20;
+      searchPhrase.value = searchParam;
+    }
+
     return booksLibrary.value;
   }
 
@@ -68,6 +98,7 @@ export const useBooksStore = defineStore("books", () => {
     numberFound,
     bookDetails,
     loading,
+    clearSearchPhrase,
     setLoading,
     getLoading,
     searchBook,

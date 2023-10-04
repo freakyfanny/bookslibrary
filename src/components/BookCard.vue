@@ -10,7 +10,7 @@
     ></div>
     <div
       v-else
-      class="h-48 m-3 lg:h-64 lg:w-40 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-pink-100"
+      class="h-48 m-3 lg:h-64 lg:w-40 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-blue-100"
       :title="props.book.title"
     ></div>
     <div

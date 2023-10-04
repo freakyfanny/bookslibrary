@@ -2,7 +2,7 @@
   <HeaderNav class="p-10 flex flex-row">
     <div id="flex">
       <router-link to="/">
-  <span class="text-pink-500 text-lg">Books<span class="text-pink-300">library</span></span></router-link> |
+  <span class="text-blue-500 text-lg">Books<span class="text-blue-300">library</span></span></router-link> |
       <router-link to="/readBook" v-if="currentBook && currentBook.title">Read Book</router-link>
     </div>
     <SearchBox v-model="email" @searchInput="(e) => searchForInput(e)" />

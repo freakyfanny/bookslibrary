@@ -1,10 +1,10 @@
 <template>
   <div
-    class="book-details max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
+    class="book-details shadow-md m-4 p-4 h-fit bg-blue-100 max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
   >
     <div
       v-if="currentBook && currentBook.covers"
-      class="h-48 m-3 lg:h-80 lg:w-48 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
+      class="lg:w-48 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
       :style="{
         'background-image': 'url(' + getBookCoverUrl(currentBook) + ')',
       }"
@@ -12,37 +12,43 @@
     ></div>
     <div
       v-else
-      class="h-48 m-3 lg:h-80 lg:w-48 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-pink-100"
+      class="lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-blue-100"
       :title="currentBook.title"
     ></div>
 
-      <div class="w-1/3 flex flex-col"><h3 class="text-gray-900 font-bold text-left text-xl mt-2">
+    <div class="w-1/3 flex flex-col mx-2 pl-2">
+      <h3 class="text-gray-900 font-bold text-left text-xl mt-2">
         {{ currentBook.title }}
       </h3>
       <div v-if="currentBook.author">
         <BookAuthor :author="currentBook.author" />
       </div>
-      <p class="pt-4"><b>Published year:</b></p>
-        <p>{{ currentBook.publishDate }}</p>
+      <div class="flex flex-row items-center p-2 mt-4">
+        <div v-for="num in parseInt(currentBook.rating, 10)" :key="num">
+          <StarRating />
+        </div>
+        <p class="pl-4"><b> {{ currentBook.rating }}</b> ({{ currentBook.ratingCount }})
+      </p>
+      </div>
+      
     </div>
-      <div class="w-1/3 flex flex-col" v-if="bookDetails.description">
-        <p class="pt-4"><b>Description: </b></p>
-        <p v-if="bookDetails.description.value">
-          {{ showCorrectDescription(bookDetails.description.value) }}
-        </p>
-        <p v-else>{{ showCorrectDescription(bookDetails.description) }}</p>
-      </div>
+    <div class="w-1/3 flex flex-col mx-2" v-if="bookDetails.description">
+      <p class="pt-4"><b>Description: </b></p>
+      <p v-if="bookDetails.description.value">
+        {{ showCorrectDescription(bookDetails.description.value) }}
+      </p>
+      <p v-else>{{ showCorrectDescription(bookDetails.description) }}</p>
+    </div>
 
-      <div class="w-1/3 flex flex-col"> 
-        
-        <p>
-          rating{{ currentBook.rating }} rating count
-          {{ currentBook.ratingCount }} want to read
-          {{ currentBook.wantRead }} currently reading
-          {{ currentBook.currentlyReading }} read
-          {{ currentBook.alreadyRead }} pages {{ currentBook.pages }}
-        </p>
-      </div>
+    <div class="w-1/3 flex flex-col mx-2">
+     
+      <p class="pt-2"><b>When was this book published?</b></p>
+      <p class="pt-2">{{ currentBook.publishDate }}</p>
+      <p class="pt-2"><b>How many wants to read this book?</b><br/> {{ currentBook.wantRead }}</p>
+      <p class="pt-2"><b>How many are currently reading this book?</b><br/> {{ currentBook.currentlyReading }}</p>
+      <p class="pt-2"><b>How many have read this book?</b><br/> {{ currentBook.alreadyRead }}</p>
+      <p class="pt-2"><b>Total pages</b> <br/> {{ currentBook.pages }}</p>
+    </div>
   </div>
 </template>
 
@@ -51,6 +57,7 @@ import { useBooksStore } from "../store/booksStore";
 import { storeToRefs } from "pinia";
 import { onBeforeMount } from "vue";
 import BookAuthor from "../components/BookAuthor.vue";
+import StarRating from "../components/StarRating.vue";
 
 const bookStore = useBooksStore();
 
@@ -63,7 +70,16 @@ onBeforeMount(async () => {
 
 const showCorrectDescription = (bookDescription) => {
   let newDescription = bookDescription.replace(/(\\r)*\\n/g, "</br></br>");
-  newDescription = newDescription.substring(0, newDescription.indexOf("("));
+
+  if (bookDescription.includes("(")) {
+    newDescription = newDescription.substring(0, newDescription.indexOf("("));
+  } else if (bookDescription.includes("[")) {
+    newDescription = newDescription.substring(0, newDescription.indexOf("["));
+  }
+
+  console.log(newDescription);
+  console.log(bookDescription);
+
   return newDescription;
 };
 

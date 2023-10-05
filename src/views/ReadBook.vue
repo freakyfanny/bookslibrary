@@ -123,9 +123,6 @@ const showCorrectDescription = (bookDescription) => {
     newDescription = newDescription.substring(0, newDescription.indexOf("["));
   }
 
-  console.log(newDescription);
-  console.log(bookDescription);
-
   return newDescription;
 };
 

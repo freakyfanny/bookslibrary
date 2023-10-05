@@ -16,8 +16,6 @@ export const useBooksStore = defineStore("books", () => {
   }
 
   async function getBookDetails() {
-    console.log("key");
-    console.log(currentBook.value.key);
     const url = "http://localhost:3000/bookDetails?key=";
     const result = await fetch(url + currentBook.value.key, {
       method: "get",
@@ -42,9 +40,8 @@ export const useBooksStore = defineStore("books", () => {
 
   async function searchBook(searchParam) {
     let newSearch = true;
-    console.log('lollalala');
-    console.log(searchParam != searchPhrase.value || searchPhrase.value == '');
-    if(searchParam != searchPhrase.value || searchPhrase.value == '') {
+
+    if(searchParam != undefined && (searchParam != searchPhrase.value || searchPhrase.value == '')) {
       offset.value = 0;
       newSearch = true;
     } else {
@@ -69,19 +66,10 @@ export const useBooksStore = defineStore("books", () => {
     numberFound.value = result ? result.numFound : 0;
 
 
-    console.log(numberFound);
-    console.log(booksLibrary);
-    console.log('newSearch');
-    console.log(newSearch);
     if(booksLibrary.value.length > 0 && !newSearch){
-      const newValue = result ? result.docs.concat(booksLibrary.value) : [];
-      console.log('newValue');
-      console.log(result);
-      console.log(booksLibrary.value);
-      console.log(newValue);
+      const newValue = result ? [...booksLibrary.value, ...result.docs  ] : [];
       booksLibrary.value = newValue;
     } else {
-      console.log('lol');
       booksLibrary.value = result ? result.docs : [];
     }
 

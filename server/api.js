@@ -19,33 +19,18 @@ app.get("/books", async (request, response) => {
 
 app.get("/bookDetails", async (request, response) => {
   const result = await getBookDetails(request.query.key);
-  console.log("bookDetails result", result);
-  response.send(result);
-});
-
-app.get("/isbnDetails", async (request, response) => {
-  const result = await getIsbnDetails(request.query.isbn);
-  console.log("IsbnDetails result", result);
   response.send(result);
 });
 
 app.get(`/search`, async (request, response) => {
   const result = await search(request.query.searchParam);
 
-  //TODO: hämta enligt limit och start
-  console.log("before");
-  // console.log(result.docs);
   const end = parseFloat(request.query.limit) + parseFloat(request.query.offset);
-  console.log('limits ----');
-  console.log(request.query.limit);
-  console.log(request.query.offset);
-  console.log("end ---", end);
   let sliced = Object.values(result.docs).slice(request.query.offset, end);
-  console.log(sliced);
+
   const updatedBooks = await mapToBookStructure(sliced);
   result.docs = updatedBooks;
-  console.log("after");
-  // console.log(updatedBooks);
+
   response.send(result);
 });
 
@@ -57,7 +42,6 @@ const mapToBookStructure = async (books) => {
       if (book.isbn?.length > 0) {
         updatedBook = await getBook(book.isbn[0], "isbn");
         bookDetails = await getBookDetails(book.key);
-        // isbnDetails = await getIsbnDetails(book.isbn[0]);
       } else if (book.oclc?.length > 0) {
         updatedBook = await getBook(book.oclc[0], "oclc");
         bookDetails = await getBookDetails(book.key);
@@ -88,9 +72,6 @@ const mapToBookStructure = async (books) => {
       };
     })
   );
-
-  console.log("mapResult");
-  console.log(mapResult);
 
   return mapResult;
 };

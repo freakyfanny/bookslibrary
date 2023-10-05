@@ -1,23 +1,23 @@
 <template>
   <div @click="handleClickOnBook"
-    class="w-1/3 flex rounded m-2 shadlow-lg bg-white "
+    class="sm:w-1/3 w-fit flex rounded m-2 shadlow-lg bg-white flex-col flex-wrap sm:flex-row sm:flex-nowrap"
   >
     <div
       v-if="props.book && props.book.covers"
-      class="h-48 m-3 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
+      class="h-48 sm:m-3 m-4 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
       :style="{ 'background-image': 'url(' + getBookCoverUrl(props.book) + ')' }"
       :title="props.book.title"
     ></div>
     <div
       v-else
-      class="h-48 m-3 lg:h-64 lg:w-40 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-blue-100"
+      class="h-48 sm:m-3 m-4 lg:h-64 lg:w-40 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-blue-100"
       :title="props.book.title"
     ></div>
     <div
       class="bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-start leading-normal"
     >
       <div class="flex items-start flex-col">
-        <div class="text-gray-900 font-bold text-left text-xl mb-2">
+        <div class="text-gray-900 font-bold text-left sm:text-xl text-md mb-2 sm:mt-0 -mt-6">
           {{ props.book.title }}
         </div>
 

@@ -2,17 +2,17 @@
   <div>
     <div
     v-if="loadingState === true"
-      class="book-details shadow-md m-4 p-4 h-fit bg-blue-100 max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
+      class="shadow-md sm:flex-nowrap flex-wrap mx-4 p-4 h-fit bg-blue-100 max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
     >
       <LoadingSpinner />
     </div>
     <div
       v-else
-      class="book-details shadow-md m-4 p-4 h-fit bg-blue-100 max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
+      class="shadow-md sm:flex-nowrap flex-wrap flex-col sm:flex-row mx-4 p-4 h-fit bg-blue-100 max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
     >
       <div
         v-if="currentBook && currentBook.covers"
-        class="lg:w-48 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
+      class="h-48 sm:m-3 m-4 lg:h-64 lg:w-44 flex-none bg-contain bg-no-repeat rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden"
         :style="{
           'background-image': 'url(' + getBookCoverUrl(currentBook) + ')',
         }"
@@ -20,12 +20,12 @@
       ></div>
       <div
         v-else
-        class="lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-blue-100"
+      class="h-48 sm:m-3 m-4 lg:h-64 lg:w-40 pl-2 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l overflow-hidden bg-blue-100"
         :title="currentBook.title"
       ></div>
 
-      <div class="w-1/3 flex flex-col mx-2 pl-2">
-        <h3 class="text-gray-900 font-bold text-left text-xl mt-2">
+      <div class="md:w-1/3 flex flex-col md:flex-nowrap flex-wrap mx-2 pl-2">
+        <h3 class="text-gray-900 font-bold text-left text-xl">
           {{ currentBook.title }}
         </h3>
         <div v-if="currentBook.author">
@@ -49,7 +49,7 @@
       </div>
 
       <div class="w-1/3 flex flex-col mx-2">
-        <p class="pt-2"><b>When was this book published?</b></p>
+        <p><b>When was this book published?</b></p>
         <p class="pt-2">{{ currentBook.publishDate }}</p>
         <p class="pt-2">
           <b>How many wants to read this book?</b><br />

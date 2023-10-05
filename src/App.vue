@@ -1,12 +1,12 @@
 <template>
-  <HeaderNav class="p-10 flex flex-row">
-    <div id="flex">
+  <HeaderNav class="p-10 flex md:flex-row md:flex-no-wrap flex-wrap flex-column">
+    <div >
       <router-link to="/">
         <span class="text-blue-500 text-lg"
           >Books<span class="text-blue-300">library</span></span
         ></router-link
       >
-      <router-link to="/readBook" v-if="currentBook && currentBook.title"
+      <router-link class="ml-2 font-bold underline" to="/readBook" v-if="currentBook && currentBook.title"
         >Read Book</router-link
       >
     </div>

@@ -25,11 +25,14 @@ import BookCard from "../components/BookCard.vue";
 import { ref, watch, onMounted } from "vue";
 import { useBooksStore } from "../store/booksStore";
 import { storeToRefs } from "pinia";
+import { useRouter } from 'vue-router'
 
 const bookStore = useBooksStore();
 
 const { booksLibrary, numFound, loading } = storeToRefs(bookStore);
 const loadingState = ref(false);
+
+const router = useRouter()
 
 watch(loading, () => {
   getLoadingState();
@@ -45,7 +48,7 @@ const getLoadingState = () => {
 
 const getNextSearchResults = () => {
   window.onscroll = () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
+    if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && router.currentRoute.value.name == 'BooksLibrary') {
       bookStore.setLoading(true);
       bookStore.searchBook();
     }

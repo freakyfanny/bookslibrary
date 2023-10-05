@@ -14,8 +14,8 @@
     >
       <div v-if="numFound < 1">No results found</div>
       <BookCard v-for="book in booksLibrary" :book="book" :key="book.lccn" />
-      <div class="w-full flex justify-center" v-if="loadingState === true && booksLibrary.length > 1"><LoadingSpinner/></div>
     </div>
+    <div class="flex justify-center bg-blue-200 pb-12" v-if="loadingState === true && booksLibrary.length > 1"><LoadingSpinner/></div>
   </div>
 </template>
 

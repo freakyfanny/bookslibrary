@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-start justify-center min-h-screen">
+  <div class="flex justify-center min-h-screen">
     <div class="relative">
       <div
         class="w-16 h-16 rounded-full absolute border-4 border-solid border-blue-200"

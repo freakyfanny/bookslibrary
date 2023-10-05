@@ -41,6 +41,16 @@ export const useBooksStore = defineStore("books", () => {
   }
 
   async function searchBook(searchParam) {
+    let newSearch = true;
+    console.log('lollalala');
+    console.log(searchParam != searchPhrase.value || searchPhrase.value == '');
+    if(searchParam != searchPhrase.value || searchPhrase.value == '') {
+      offset.value = 0;
+      newSearch = true;
+    } else {
+      newSearch = false;
+    }
+
     if (searchParam) {
       searchPhrase.value = searchParam.replace(/\s/g, "+");
     }
@@ -61,7 +71,9 @@ export const useBooksStore = defineStore("books", () => {
 
     console.log(numberFound);
     console.log(booksLibrary);
-    if(booksLibrary.value.length > 0){
+    console.log('newSearch');
+    console.log(newSearch);
+    if(booksLibrary.value.length > 0 && !newSearch){
       const newValue = result ? result.docs.concat(booksLibrary.value) : [];
       console.log('newValue');
       console.log(result);

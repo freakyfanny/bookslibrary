@@ -4,7 +4,7 @@
   >
     <div
       class="justify-center -mx-1 w-screen sm:w-full min-h-screen h-fit p-10 bg-blue-200"
-      v-if="loadingState === true"
+      v-if="loadingState === true && booksLibrary.length < 1"
     >
       <LoadingSpinner />
     </div>
@@ -14,6 +14,7 @@
     >
       <div v-if="numFound < 1">No results found</div>
       <BookCard v-for="book in booksLibrary" :book="book" :key="book.lccn" />
+      <div class="w-full flex justify-center" v-if="loadingState === true && booksLibrary.length > 1"><LoadingSpinner/></div>
     </div>
   </div>
 </template>
@@ -45,7 +46,8 @@ const getLoadingState = () => {
 const getNextSearchResults = () => {
   window.onscroll = () => {
     if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight) {
-      bookStore.searchBook()
+      bookStore.setLoading(true);
+      bookStore.searchBook();
     }
   };
 };

@@ -54,6 +54,7 @@ const getBookCoverUrl = (book) => {
 }
 
 const handleClickOnBook = () => {
+  bookStore.setLoading(true);
   bookStore.setCurrentBook(props.book);
 
   router.push('readBook')

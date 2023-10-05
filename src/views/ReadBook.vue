@@ -1,10 +1,10 @@
 <template>
   <div>
     <div
-      v-if="bookStore.getLoading()"
+    v-if="loadingState === true"
       class="book-details shadow-md m-4 p-4 h-fit bg-blue-100 max-h-full flex text-left sm:max-h-screen max-w-full sm:max-w-screen"
     >
-      OKOKOKOK <LoadingSpinner /> Loading
+      <LoadingSpinner />
     </div>
     <div
       v-else
@@ -75,7 +75,7 @@
 <script setup>
 import { useBooksStore } from "../store/booksStore";
 import { storeToRefs } from "pinia";
-import { onBeforeMount } from "vue";
+import { onBeforeMount, watch, ref } from "vue";
 import BookAuthor from "../components/BookAuthor.vue";
 import StarRating from "../components/StarRating.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
@@ -85,7 +85,21 @@ const router = useRouter();
 
 const bookStore = useBooksStore();
 
-const { currentBook, bookDetails } = storeToRefs(bookStore);
+const { currentBook, bookDetails, loading } = storeToRefs(bookStore);
+const loadingState = ref(false);
+
+
+watch(loading, () => {
+  getLoadingState();
+});
+
+watch(bookDetails, () => {
+  getLoadingState();
+});
+
+const getLoadingState = () => {
+  loadingState.value = bookStore.getLoading();
+};
 
 onBeforeMount(async () => {
   if (!currentBook) {
